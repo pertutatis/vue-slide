@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <DomestikCarousel/>
+    <DomestikCarousel :carousels="carousels"/>
   </div>
 </template>
 
@@ -11,7 +11,22 @@ export default {
   name: 'App',
   components: {
     DomestikCarousel
-  }
+  },
+  data() {
+    return {
+      carousels: [
+          {
+            img: 'https://picsum.photos/900/506?image=1081',
+          },
+          {
+            img: 'https://picsum.photos/900/506?image=1068',
+          },
+          {
+            img: 'https://picsum.photos/900/506?image=989',
+          }
+        ]
+    }
+  },
 }
 </script>
 

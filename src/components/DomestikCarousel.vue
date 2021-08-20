@@ -3,6 +3,10 @@
     <div 
       class="carousel" 
       ref="carousel" 
+      @mouseenter.stop="toggleTimer = false" 
+      @mouseleave.stop="toggleTimer = true" 
+      @touchstart.stop="touchStart" 
+      @touchmove.stop="touchMove" 
       :style="'min-height:' + minHeight "
     >
       <keep-alive>
@@ -36,25 +40,31 @@ import CarouselNavigation from './CarouselNavigation.vue'
 
 export default {
   name: 'DomestikCarousel',
+  props: {
+    carousels: {
+      type: Array,
+      required: true
+    },
+    autoplay: {
+      type: Boolean,
+      default: true
+    },
+    timerDelay: {
+      type: Number,
+      default: 5000
+    }
+  },
   components: {
     CarouselNavigation
   },
   data() {
       return {
         carouselDirection: 'carousel-next',
-        carousels: [
-          {
-            img: 'https://picsum.photos/900/506?image=1081',
-          },
-          {
-            img: 'https://picsum.photos/900/506?image=1068',
-          },
-          {
-            img: 'https://picsum.photos/900/506?image=989',
-          }
-        ],
         show: 0,
-        minHeight: 0 
+        xDown: null, // for touch
+        yDown: null, // for touch
+        toggleTimer: true,
+        minHeight: 0
   }
    },
   computed: {
@@ -63,6 +73,7 @@ export default {
     }
   },
 	methods: {
+    //Navigation
 		toNextCarousel() {
 			this.carouselDirection = 'carousel-next';
 			this.show + 1 >= this.carouselLength ? this.show = 0 : this.show = this.show + 1;
@@ -74,11 +85,42 @@ export default {
     updateCarousel(index) {
       index >= this.show ? this.carouselDirection = 'carousel-next' : this.carouselDirection = 'carousel-prev';
       this.show = index
-
     },
 
+		// swiper event(for mobile)
+		touchStart(e) {
+			this.xDown = e.touches[0].clientX;
+			this.yDown = e.touches[0].clientY;
+		},
+		touchMove(e) {
+			const _this = this;
+			if(!this.xDown || !this.yDown) { 
+        return; 
+      }
+
+			let xUp = e.touches[0].clientX;
+			let yUp = e.touches[0].clientY;
+
+			let xDiff = this.xDown - xUp;
+			let yDiff = this.yDown - yUp;
+
+			if(Math.abs(xDiff) > Math.abs(yDiff)) {
+				xDiff > 0 ? _this.toNextCarousel() : _this.toPreviousCarousel();
+			}
+
+			this.xDown = null;
+			this.yDown = null;
+		},
+    
+		autoPlay() {
+			setInterval(() => {
+				if(this.toggleTimer) this.toNextCarousel();
+			}, this.timerDelay);
+		}
 	},
 	mounted() {
+		if(this.autoplay) this.autoPlay();
+
 		window.addEventListener('load', () => {
 			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
 		});
@@ -102,8 +144,6 @@ export default {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .carousel__item {
@@ -116,8 +156,8 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: #000;
-  color: #FFF;
+  background: black;
+  color: white;
   opacity: 1;
 
   &:first-of-type {
@@ -144,5 +184,4 @@ export default {
 .carousel-next-leave-to, .carousel-prev-enter {
   transform: translateX(-100%);
 }
-  
 </style>

@@ -8,7 +8,20 @@ const selectors = {
   bullets: '[data-testid="bullets"]'
 }
 
-function build(props = {}) {
+const timerDelay = 5000;
+const carousels = [
+  {
+    img: 'https://picsum.photos/900/506?image=1081',
+  },
+  {
+    img: 'https://picsum.photos/900/506?image=1068',
+  },
+  {
+    img: 'https://picsum.photos/900/506?image=989',
+  }
+];
+
+function build(props = {carousels}) {
   return mount(DomestikCarousel, {
     propsData: props
   });
@@ -28,7 +41,7 @@ describe("Carousel load", () => {
 
     const carousel = wrapper.findAll(selectors.carouselImage);
 
-    expect(carousel.length).toBe(3);
+    expect(carousel.length).toBe(carousels.length);
   });
 
   it("shows the only the first slide", () => {
@@ -75,3 +88,25 @@ describe("Carousel navigation", () => {
     }
   });
 });
+
+describe("autoplay", () => {
+  it("autoplays one loop", async () => {
+    jest.useFakeTimers()
+    const wrapper = build({carousels, timerDelay});
+
+    jest.runTimersToTime(timerDelay);
+    let carousel = await wrapper.findAll(selectors.carouselImage);
+
+    checkVisibleCarousel(carousel, 1)
+  });
+
+  it("autoplays two loops", async () => {
+    jest.useFakeTimers()
+    const wrapper = build({carousels, timerDelay});
+
+    jest.runTimersToTime(timerDelay * 2);
+    let carousel = await wrapper.findAll(selectors.carouselImage);
+
+    checkVisibleCarousel(carousel, 2)
+  });
+})

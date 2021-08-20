@@ -59,7 +59,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;  
-  background: #FFF;
+  background: white;
   transform: translateY(-50%);
   transition: opacity 0.3s;
 
@@ -97,6 +97,6 @@ export default {
   transition: 0.3s;
 }
 .bullets__link:hover, .bullets__link--active {
-  background: #fff;
+  background: white;
 }
 </style>
