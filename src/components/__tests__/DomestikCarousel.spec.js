@@ -95,7 +95,7 @@ describe("autoplay", () => {
     const wrapper = build({carousels, timerDelay});
 
     jest.runTimersToTime(timerDelay);
-    let carousel = await wrapper.findAll(selectors.carouselImage);
+    const carousel = await wrapper.findAll(selectors.carouselImage);
 
     checkVisibleCarousel(carousel, 1)
   });
@@ -105,8 +105,18 @@ describe("autoplay", () => {
     const wrapper = build({carousels, timerDelay});
 
     jest.runTimersToTime(timerDelay * 2);
-    let carousel = await wrapper.findAll(selectors.carouselImage);
+    const carousel = await wrapper.findAll(selectors.carouselImage);
 
     checkVisibleCarousel(carousel, 2)
+  });
+
+  it("disables autoplay", async () => {
+    jest.useFakeTimers()
+    const wrapper = build({carousels, timerDelay, autoplay: false});
+
+    jest.runTimersToTime(timerDelay);
+    const carousel = await wrapper.findAll(selectors.carouselImage);
+
+    checkVisibleCarousel(carousel, 0)
   });
 })
