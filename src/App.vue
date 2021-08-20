@@ -16,6 +16,15 @@ export default {
 </script>
 
 <style>
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
