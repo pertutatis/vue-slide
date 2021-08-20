@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <DomestikCarousel :carousels="carousels"/>
+    <DomestikCarousel :carousels="carousels" :fade="true"/>
   </div>
 </template>
 

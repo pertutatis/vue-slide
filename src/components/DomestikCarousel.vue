@@ -10,7 +10,7 @@
       :style="'min-height:' + minHeight "
     >
       <keep-alive>
-        <transition-group :name="carouselDirection">
+        <transition-group :name="transitionName">
           <div 
             class="carousel__item" 
             data-testid="carousel-image"
@@ -52,6 +52,10 @@ export default {
     timerDelay: {
       type: Number,
       default: 5000
+    },
+    fade: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -70,6 +74,9 @@ export default {
   computed: {
     carouselLength() {
       return this.carousels.length || 0;
+    },
+    transitionName() {
+      return this.fade ? 'fade' : this.carouselDirection;
     }
   },
 	methods: {
@@ -183,5 +190,18 @@ export default {
 
 .carousel-next-leave-to, .carousel-prev-enter {
   transform: translateX(-100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all 0.8s ease;
+	overflow: hidden;
+	visibility: visible;
+	opacity: 1;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+	visibility: hidden;
 }
 </style>
