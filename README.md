@@ -15,11 +15,11 @@
 ## Add component
 
 ```bash
-yarn add @pertutatis/domestik-carousel
+yarn add domestik-carousel
 
 //or
 
-npm i @pertutatis/domestik-carousel
+npm i domestik-carousel
 ```
 
 ## Load component
@@ -35,7 +35,7 @@ npm i @pertutatis/domestik-carousel
 </template>
 
 <script>
-import DomestikCarousel from '@pertutatis/domestik-carousel'
+import DomestikCarousel from 'domestik-carousel'
 
 export default {
   name: 'App',
