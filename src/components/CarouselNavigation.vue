@@ -1,14 +1,14 @@
 <template>
   <div class="navigation">
-      <a class="arrow arrow--prev" data-testid="previous-arrow" href="#" @click.prevent="toPreviousCarousel">
+      <a v-if="arrows" class="arrow arrow--prev" data-testid="previous-arrow" href="#" @click.prevent="toPreviousCarousel">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
       </a>
 
-      <a class="arrow arrow--next" data-testid="next-arrow" href="#" @click.prevent="toNextCarousel">
+      <a v-if="arrows" class="arrow arrow--next" data-testid="next-arrow" href="#" @click.prevent="toNextCarousel">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
       </a>
 
-      <div class="bullets">
+      <div v-if="dots" class="bullets">
         <a
           class="bullets__link"
           data-testid="bullets" 
@@ -32,6 +32,14 @@ export default {
     },
     activeCarousel: {
       type: Number,
+      required: true
+    },
+    arrows: {
+      type: Boolean,
+      required: true
+    },
+    dots: {
+      type: Boolean,
       required: true
     }
   },

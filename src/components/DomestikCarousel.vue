@@ -26,6 +26,8 @@
       <CarouselNavigation
         :carousel-length="carouselLength"
         :active-carousel="show"
+        :arrows="arrows"
+        :dots="dots"
         @toNextCarousel="toNextCarousel"
         @toPreviousCarousel="toPreviousCarousel"
         @updateCarousel="updateCarousel"
@@ -49,13 +51,21 @@ export default {
       type: Boolean,
       default: true
     },
-    timerDelay: {
+    autoplaySpeed: {
       type: Number,
       default: 5000
     },
     fade: {
       type: Boolean,
       default: false
+    },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    dots: {
+      type: Boolean,
+      default: true
     }
   },
   components: {
@@ -122,13 +132,17 @@ export default {
 		autoPlay() {
 			setInterval(() => {
 				if(this.toggleTimer) this.toNextCarousel();
-			}, this.timerDelay);
+			}, this.autoplaySpeed);
 		}
 	},
 	mounted() {
 		if(this.autoplay) this.autoPlay();
 
 		window.addEventListener('load', () => {
+			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+		});
+
+    window.addEventListener('resize', () => {
 			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
 		});
 	},
@@ -143,7 +157,6 @@ export default {
   overflow-y: hidden;
   margin-right: auto;
   margin-left: auto;
-  padding-top: 5vh;
   max-width: 900px;
 }
 
