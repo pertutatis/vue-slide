@@ -14,7 +14,12 @@ export default {
   },
   data() {
     return {
-      carousels: [
+      carousels: []
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.carousels = [
           {
             img: 'https://picsum.photos/900/506?image=1081',
           },
@@ -25,7 +30,7 @@ export default {
             img: 'https://picsum.photos/900/506?image=989',
           }
         ]
-    }
+    }, 1000);
   },
 }
 </script>

@@ -14,8 +14,9 @@
           <div 
             class="carousel__item" 
             data-testid="carousel-image"
-            v-for="(carousel, activeCarousel) in carousels" 
-            v-show="show == activeCarousel" 
+            v-for="(carousel, activeCarousel) in carousels"
+            v-show="show == activeCarousel"
+            :class="{'carousel__item--active': show == activeCarousel}"
             :key="carousel.img"
           >
             <img class="carousel__image" :src="carousel.img"/>
@@ -91,7 +92,10 @@ export default {
   },
   watch: {
     carousels() {
-      this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+      this.minHeight = '0px';
+      setTimeout(() => { // keep place to the browser to render and animate before recalculate
+        this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+      }, 500);
     }
   },
 	methods: {
@@ -144,11 +148,15 @@ export default {
 		if(this.autoplay) this.autoPlay();
 
 		window.addEventListener('load', () => {
+      console.log(this.$refs.carousel.offsetHeight + 'px');
 			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
 		});
 
     window.addEventListener('resize', () => {
-			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+      this.minHeight = '0px';
+      setTimeout(() => { // keep place to the browser to render changes before recalculate
+        this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+      }, 100);
 		});
 	},
 };
@@ -185,9 +193,13 @@ export default {
   color: white;
   opacity: 1;
 
-  &:first-of-type {
+  /* &:first-of-type {
     position: relative;
-  }
+  } */
+}
+
+.carousel__item--active {
+  position: relative;
 }
 
 .carousel__image {
