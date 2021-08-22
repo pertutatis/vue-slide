@@ -72,21 +72,26 @@ export default {
     CarouselNavigation
   },
   data() {
-      return {
-        carouselDirection: 'carousel-next',
-        show: 0,
-        xDown: null, // for touch
-        yDown: null, // for touch
-        toggleTimer: true,
-        minHeight: 0
-  }
-   },
+    return {
+      carouselDirection: 'carousel-next',
+      show: 0,
+      xDown: null, // for touch
+      yDown: null, // for touch
+      toggleTimer: true,
+      minHeight: 0
+    }
+  },
   computed: {
     carouselLength() {
       return this.carousels.length || 0;
     },
     transitionName() {
       return this.fade ? 'fade' : this.carouselDirection;
+    }
+  },
+  watch: {
+    carousels() {
+      this.minHeight = this.$refs.carousel.offsetHeight + 'px';
     }
   },
 	methods: {
