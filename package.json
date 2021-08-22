@@ -1,13 +1,12 @@
 {
   "name": "@pertutatis/domestik-carousel",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Vue carousel component",
   "main": "dist/cjs/DomestikCarousel.js",
   "module": "dist/esm/DomestikCarousel.js",
   "license": "MIT",
-  "private": true,
   "scripts": {
-    "prepare": "npm run build",
+    "prepare": "npm run build:package",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
